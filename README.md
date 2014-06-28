@@ -22,6 +22,7 @@ in your page. Set the `images` property to an array of objects containing `width
   <spotify-coverart images='[{"height":640,"url":"https://i.scdn.co/image/4ba3d88559683547a61210cffe82349b1094482e","width":480},{"height":300,"url":"https://i.scdn.co/image/23b8e2a3ffa06d001ff77de738b3c89aed02af8e","width":225},{"height":64,"url":"https://i.scdn.co/image/504389979f2fa66a804b7311e5ce634090a608a1","width":48}]'></spotify-coverart>
 </body>
 </script>
+```
 
 ## Running the example
 
@@ -41,5 +42,5 @@ Then, you only need to navigate to [http://localhost:5000/bower_components/spoti
 
 ## TODO
 
-Prevent loading a smaller image if a larger one is already in place.
-Replace a smaller version with a larger one in a smoother way, waiting for the one to be loaded. 
+- Prevent loading a smaller image if a larger one is already in place.
+- Replace a smaller version with a larger one in a smoother way, waiting for the one to be loaded. 
