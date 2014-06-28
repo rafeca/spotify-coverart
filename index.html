@@ -1,12 +1,59 @@
-<link rel="import" href="../polymer/polymer.html">
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>spotify coverart</title>
+    <script type="text/javascript" src="bower_components/platform/platform.js"></script>
+    <link rel="import" href="bower_components/spotify-coverart/index.html">
+    <style>
+      spotify-coverart {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Spotify coverart demo</h1>
+    <form>
+        <input type="text" placeholder="Type track name" id="query"/>
+        <input type="submit">
+    </form>
 
-<polymer-element name="spotify-coverart" attributes="images">
-  <template>
-    <link rel="stylesheet" href="style.css"/>
-    <div class="square-placeholder">
-      <div class="image" style="background-size: cover; background-image:url({{ cover }})" on-load="{{ onImageLoaded }}"></div>
-    </div>
-  </template>
+    <br/>
 
-  <script type="text/javascript" src="main.js"></script>
-</polymer-element>
+    <label for="size">Size of cover art (in percentage)</label>
+    <input type="number" min="0" max="100" id="size" value="100"></input>
+
+    <br/>
+
+    <spotify-coverart></spotify-coverart>
+
+    <script>
+    var coverartPlaceholder = document.querySelector('spotify-coverart');
+    document.forms[0].addEventListener('submit', function(e) {
+        e.preventDefault();
+        var query = document.getElementById('query').value;
+        var req = new XMLHttpRequest();
+        req.open('GET',
+            'https://api.spotify.com/v1/search/?q=' + encodeURIComponent(query) + '&type=track',
+          true);
+        req.onreadystatechange = function() {
+            if (req.readyState === 4 && req.status === 200) {
+                try {
+                    var response = JSON.parse(req.responseText);
+                    var images = response.tracks.items[0].album.images;
+                    coverartPlaceholder.setAttribute('images', JSON.stringify(images));
+                }
+                catch(e) {
+                    console.error(e);
+                }
+            }
+        };
+        req.send(null);
+    }, false);
+
+    document.getElementById('size').addEventListener('change', function(e) {
+        coverartPlaceholder.style.width = parseInt(this.value, 10) + '%';
+    });
+    </script>
+  </body>
+</html>
